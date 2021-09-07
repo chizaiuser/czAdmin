@@ -1,10 +1,42 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="main-container">
+    <cz-header :list="list"></cz-header>
+    <router-view />
   </div>
-  <router-view/>
 </template>
+<script lang="ts">
+import { ref, unref } from "vue";
+import CzHeader from './components/Header';
+export default {
+  name: "app",
+  components: {
+    CzHeader
+  },
+  setup() {
+    let list = [
+      {
+        name: '首页',
+        url: '/'
+      },
+      {
+        name: '文章',
+        url: '/article'
+      },
+      {
+        name: '留言',
+        url: '/communication'
+      },
+      {
+        name: '生活馆',
+        url: '/communication'
+      }
+    ]
+    return {
+      list
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -13,18 +45,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
