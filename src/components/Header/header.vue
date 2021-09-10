@@ -2,22 +2,28 @@
     <!-- <div></div> -->
     <el-header class="cz-header">
         <el-row :gutter="30">
-            <el-col class="cz-header-tx" :span="4">
-                <div>
+            <el-col :span="5">
+                <div class="cz-header-tx">
                     <span>驰仔blog</span>
                 </div>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="14">
                 <ul class="cz-header-ui">
                     <li v-for="item in list" :key="item.name">
                         <router-link :to="item.url">{{ item.name }}</router-link>
                     </li>
                 </ul>
             </el-col>
-            <el-col :span="4" class="cz-header-user">
+            <el-col :span="5" class="cz-header-user">
                 <div class="cz-header-user">
                     <el-icon>
+                        <search />
+                    </el-icon>
+                    <el-icon>
                         <user />
+                    </el-icon>
+                    <el-icon>
+                        <operation />
                     </el-icon>
                 </div>
       
@@ -29,7 +35,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ElHeader, ElRow, ElCol } from 'element-plus';
-import { User } from '@element-plus/icons';
+import { User, Operation, Search } from '@element-plus/icons';
 export default defineComponent({
     name: 'CzHeader',
     props: {
@@ -44,7 +50,9 @@ export default defineComponent({
       ElRow,
       ElCol,
       ElHeader,
-      User
+      User,
+      Operation,
+      Search
     },
     setup(props: any, context: any){
         return {
@@ -58,17 +66,23 @@ export default defineComponent({
 <style scoped lang="scss">
 .cz-header {
     height: 65px;
-    padding: 0 40px;
+    padding: 0 50px;
     .el-row {
         height: 100%;
+        & > div{
+            height: 100%;
+        }
     }
     .cz-header-tx {
-        align-self: center;
+        height: 100%;
+        align-items: center;
+        justify-content: start;
+        display: flex;
     }
     .cz-header-ui{
-        display: flex;
         height: 100%;
-        align-self: center;
+        display: flex;
+        align-items: center;
         font-weight: 500;
         justify-content: space-between;
         &>li{
@@ -82,7 +96,13 @@ export default defineComponent({
         }
     }
     .cz-header-user{
-        align-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        & i{
+            margin-left: 15px;
+            font-size: 16px;
+        }
     }
 }
 </style>
