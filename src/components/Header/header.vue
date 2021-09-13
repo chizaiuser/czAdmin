@@ -8,7 +8,7 @@
                 </div>
             </el-col>
             <el-col :span="14">
-                <ul class="cz-header-ui">
+                <ul class="cz-header-ui" v-if="contentWidth > 750">
                     <li v-for="item in list" :key="item.name">
                         <router-link :to="item.url">{{ item.name }}</router-link>
                     </li>
@@ -22,18 +22,17 @@
                     <el-icon>
                         <user />
                     </el-icon>
-                    <el-icon>
+                    <el-icon v-if="contentWidth <= 750">
                         <operation />
                     </el-icon>
                 </div>
-      
             </el-col>
         </el-row>
     </el-header>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { ElHeader, ElRow, ElCol } from 'element-plus';
 import { User, Operation, Search } from '@element-plus/icons';
 export default defineComponent({
@@ -55,7 +54,17 @@ export default defineComponent({
       Search
     },
     setup(props: any, context: any){
+        const contentWidth = ref(0);
+
+        function onResize () {
+            contentWidth.value = window.innerWidth;
+        }
+        onMounted(() => {
+            window.addEventListener("resize", onResize);
+            onResize();
+        });
         return {
+            contentWidth,
             list: props.list
         }
     }
