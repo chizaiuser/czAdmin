@@ -46,4 +46,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.cz-tab-popover{
+    min-width: 80px !important;
+}
 </style>

@@ -14,7 +14,7 @@
                     </li>
                 </ul>
             </el-col>
-            <el-col :span="5" class="cz-header-user">
+            <el-col :span="5">
                 <div class="cz-header-user">
                     <el-icon>
                         <search />
@@ -22,9 +22,25 @@
                     <el-icon>
                         <user />
                     </el-icon>
-                    <el-icon v-if="contentWidth <= 750">
-                        <operation />
-                    </el-icon>
+                    <el-popover
+                        v-if="contentWidth <= 750"
+                        popper-class="cz-tab-popover"
+                        placement="bottom"
+                        popper-options="{
+                            boundariesElement: '.cz-header'
+                        }"
+                        :width="80"
+                        v-model:visible="visible"
+                    >   
+                        <p class="cz-popover-link" v-for="item in list" :key="item.name">
+                            <router-link :to="item.url">{{ item.name }}</router-link>
+                        </p>
+                        <template #reference>
+                            <el-icon @click="showSmartTab">
+                                <operation />
+                            </el-icon>
+                        </template>
+                    </el-popover>
                 </div>
             </el-col>
         </el-row>
@@ -33,7 +49,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { ElHeader, ElRow, ElCol } from 'element-plus';
+import { ElHeader, ElRow, ElCol, ElPopover } from 'element-plus';
 import { User, Operation, Search } from '@element-plus/icons';
 export default defineComponent({
     name: 'CzHeader',
@@ -51,13 +67,18 @@ export default defineComponent({
       ElHeader,
       User,
       Operation,
-      Search
+      Search,
+      ElPopover
     },
     setup(props: any, context: any){
         const contentWidth = ref(0);
-
+        const visible = ref(false);
         function onResize () {
             contentWidth.value = window.innerWidth;
+        }
+
+        function showSmartTab () {
+            visible.value = !visible.value;
         }
         onMounted(() => {
             window.addEventListener("resize", onResize);
@@ -65,7 +86,9 @@ export default defineComponent({
         });
         return {
             contentWidth,
-            list: props.list
+            visible,
+            list: props.list,
+            showSmartTab
         }
     }
 })
@@ -105,13 +128,19 @@ export default defineComponent({
         }
     }
     .cz-header-user{
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: end;
         & i{
             margin-left: 15px;
             font-size: 16px;
+            cursor: pointer;
         }
     }
+}
+.cz-popover-link{
+    font-size: 14px;
+    margin: 0px 0px 20px 10px;
 }
 </style>
