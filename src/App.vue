@@ -1,16 +1,18 @@
 <template>
   <div class="main-container">
-    <cz-header :list="list"></cz-header>
+    <cz-header :list="list" @handleUser="handleUser"></cz-header>
     <router-view />
+    <cz-drawer></cz-drawer>
   </div>
 </template>
 <script lang="ts">
-import { ref, unref } from "vue";
 import CzHeader from './components/Header';
+import CzDrawer from './components/Drawer';
 export default {
   name: "app",
   components: {
-    CzHeader
+    CzHeader,
+    CzDrawer
   },
   setup() {
     let list = [
@@ -31,8 +33,12 @@ export default {
         url: '/communication'
       }
     ]
+    const handleUser = function () {
+      console.log('ssssssss');
+    }
     return {
-      list
+      list,
+      handleUser
     }
   }
 };

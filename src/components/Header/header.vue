@@ -16,10 +16,10 @@
             </el-col>
             <el-col :span="5">
                 <div class="cz-header-user">
-                    <el-icon>
+                    <el-icon @click="handleSearch">
                         <search />
                     </el-icon>
-                    <el-icon>
+                    <el-icon @click="handleUser">
                         <user />
                     </el-icon>
                     <el-popover
@@ -51,6 +51,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { ElHeader, ElRow, ElCol, ElPopover } from 'element-plus';
 import { User, Operation, Search } from '@element-plus/icons';
+import CzDrawer from '../Drawer';
 export default defineComponent({
     name: 'CzHeader',
     props: {
@@ -68,7 +69,8 @@ export default defineComponent({
       User,
       Operation,
       Search,
-      ElPopover
+      ElPopover,
+      CzDrawer
     },
     setup(props: any, context: any){
         const contentWidth = ref(0);
@@ -80,6 +82,14 @@ export default defineComponent({
         function showSmartTab () {
             visible.value = !visible.value;
         }
+
+        const handleSearch = function () {
+            
+        }
+
+        const handleUser = function () {
+            context.emit("handleUser");
+        }
         onMounted(() => {
             window.addEventListener("resize", onResize);
             onResize();
@@ -88,7 +98,8 @@ export default defineComponent({
             contentWidth,
             visible,
             list: props.list,
-            showSmartTab
+            showSmartTab,
+            handleUser
         }
     }
 })
