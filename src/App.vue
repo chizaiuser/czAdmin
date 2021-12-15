@@ -2,17 +2,27 @@
   <div class="main-container">
     <cz-header :list="list" @handleUser="handleUser"></cz-header>
     <router-view />
-    <cz-drawer></cz-drawer>
+    <cz-drawer 
+      v-model="visible"
+      custom-class="user-drawer"
+    >
+      <template #content>
+        <cz-user></cz-user>
+      </template>
+    </cz-drawer>
   </div>
 </template>
 <script lang="ts">
 import CzHeader from './components/Header';
 import CzDrawer from './components/Drawer';
+import CzUser from './components/User';
+import { ref } from 'vue';
 export default {
   name: "app",
   components: {
     CzHeader,
-    CzDrawer
+    CzDrawer,
+    CzUser
   },
   setup() {
     let list = [
@@ -33,12 +43,14 @@ export default {
         url: '/communication'
       }
     ]
+    const visible = ref(false);
     const handleUser = function () {
-      console.log('ssssssss');
+      visible.value = true;
     }
     return {
       list,
-      handleUser
+      handleUser,
+      visible
     }
   }
 };
@@ -54,5 +66,8 @@ export default {
 }
 .cz-tab-popover{
     min-width: 80px !important;
+}
+.user-drawer{
+  height: 70%;
 }
 </style>
